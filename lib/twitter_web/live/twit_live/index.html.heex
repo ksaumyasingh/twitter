@@ -1,0 +1,56 @@
+<h1>Timeline</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.twit_index_path(@socket, :index)}>
+    <.live_component
+      module={TwitterWeb.TwitLive.FormComponent}
+      id={@twit.id || :new}
+      title={@page_title}
+      action={@live_action}
+      twit={@twit}
+      return_to={Routes.twit_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Body</th>
+      <th>Likes count</th>
+      <th>Reposts count</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="twits" phx-update="prepend">
+    <%= for twit <- @twits do %>
+      <tr id={"twit-#{twit.id}"}>
+        <td><%= twit.username %></td>
+        <td><%= twit.body %></td>
+        <td> 
+
+        <a href="#" phx-click="like" phx-target="{ @myself }">
+          <i class='far fa-heart' style='color:red'></i>
+          <%= twit.likes_count %>
+        </a>
+        </td>
+        <td>
+        <a href="#" phx-click="repost" phx-target="{ @myself }">
+          <i class='fas fa-retweet' style='color:blue'></i><%= twit.reposts_count %>
+        </a></td>
+        <td>
+          <span><%= live_redirect "Show", to: Routes.twit_show_path(@socket, :show, twit) %></span>
+          <span><%= live_patch "Edit", to: Routes.twit_index_path(@socket, :edit, twit) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: twit.id, data: [confirm: "Are you sure?"] %></span>
+          
+
+        </td>
+      </tr>
+      
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Twit", to: Routes.twit_index_path(@socket, :new) %></span>

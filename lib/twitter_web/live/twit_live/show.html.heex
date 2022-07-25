@@ -1,0 +1,41 @@
+<h1>Show Twit</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.twit_show_path(@socket, :show, @twit)}>
+    <.live_component
+      module={TwitterWeb.TwitLive.FormComponent}
+      id={@twit.id}
+      title={@page_title}
+      action={@live_action}
+      twit={@twit}
+      return_to={Routes.twit_show_path(@socket, :show, @twit)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Username:</strong>
+    <%= @twit.username %>
+  </li>
+
+  <li>
+    <strong>Body:</strong>
+    <%= @twit.body %>
+  </li>
+
+  <li>
+    <strong>Likes count:</strong>
+    <%= @twit.likes_count %>
+  </li>
+
+  <li>
+    <strong>Reposts count:</strong>
+    <%= @twit.reposts_count %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.twit_show_path(@socket, :edit, @twit), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.twit_index_path(@socket, :index) %></span>
