@@ -98,6 +98,17 @@
 .fade-out {
   animation: 0.2s ease-out 0s normal forwards 1 fade-out-keys;
 }
+.row{
+  background-color: lightblue;
+  
+}
+.column column-90 twit-body{
+  text-align: left; 
+}
+.twit{
+  margin-bottom:0.1%;
+}
+
 
 @keyframes fade-in-scale-keys{
   0% { scale: 0.95; opacity: 0; }
